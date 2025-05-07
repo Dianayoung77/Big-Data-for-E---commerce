@@ -3,6 +3,11 @@
 ## Big data analysis of e-commerce platforms（电商平台大数据分析）
 
 
+During the practical training, I carried out the public opinion processing of telecommunication data. Subsequently, I attempted to conduct the big data analysis of e-commerce data by myself. I wrote a JAR package using Java. Then, I uploaded it to the Hadoop cluster and implemented four parts, namely data production, data collection, consumption and storage, data analysis, and data display. The uploaded content of this project is the JAR package I wrote. The versions of Hadoop, Hive, Flume, and Kafka can be found in my pom.xml, and I won't list them here.
+
+
+
+
 As China's e-commerce industry booms, traditional platforms struggle with sluggish sales growth and inefficient data processing. With data storage expanding from GB to PB levels, and business and consumer needs evolving, data analysis is now key. However, traditional analytics architectures fall short in handling large-scale, real-time data. Big data frameworks like Hadoop present new opportunities. This system's design and implementation act as an e-commerce platform's big data analysis project.
 
 
