@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IUserDao接口方法提供sql语句配置 -->
+<mapper namespace="com.dao.CallLogDAO">
+    <parameterMap type="java.util.HashMap" id="parameterMap">
+        <parameter javaType="string" jdbcType="VARCHAR" property="telephone"/>
+        <parameter javaType="string" jdbcType="VARCHAR" property="year"/>
+        <parameter javaType="string" jdbcType="VARCHAR" property="month"/>
+        <parameter javaType="string" jdbcType="VARCHAR" property="day"/>
+    </parameterMap>
+    <resultMap id="userList" type="com.model.CallLog">
+        <id column="call_sum" property="call_sum"></id>
+        <id column="call_duration_sum" property="call_duration_sum"></id>
+        <id column="telephone" property="telephone"></id>
+        <id column="name" property="name"></id>
+        <id column="year" property="year"></id>
+        <id column="month" property="month"></id>
+        <id column="day" property="day"></id>
+    </resultMap>
+    <select id="getCallLogList" parameterMap="parameterMap" resultMap="userList">
+        SELECT call_sum, call_duration_sum, telephone, name, year , month, day FROM tb_dimension_date t4
+        INNER JOIN (SELECT id_date_dimension, call_sum, call_duration_sum, telephone, name FROM tb_call t2
+                    INNER JOIN ( SELECT id, telephone, name FROM tb_contacts WHERE telephone = ? ) t1
+                    ON t2.id_contact = t1.id ) t3
+        ON t4.id = t3.id_date_dimension WHERE year = ? AND month = ? AND day = ? ORDER BY year, month
+    </select>
+
+</mapper>

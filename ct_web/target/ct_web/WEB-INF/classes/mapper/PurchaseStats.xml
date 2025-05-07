@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为PurchaseStatsDAO接口方法提供sql语句配置 -->
+<mapper namespace="com.dao.PurchaseStatsDAO">
+    <parameterMap type="java.util.HashMap" id="parameterMap">
+        <parameter javaType="string" jdbcType="VARCHAR" property="user_id"/>
+        <parameter javaType="string" jdbcType="VARCHAR" property="year"/>
+        <parameter javaType="string" jdbcType="VARCHAR" property="month"/>
+    </parameterMap>
+    <resultMap id="purchaseStatsList" type="com.model.PurchaseStats">
+        <id column="order_count" property="order_count"></id>
+        <id column="total_amount" property="total_amount"></id>
+        <id column="user_id" property="user_id"></id>
+        <id column="user_name" property="user_name"></id>
+        <id column="year" property="year"></id>
+        <id column="month" property="month"></id>
+    </resultMap>
+    <select id="getPurchaseStatsList" parameterMap="parameterMap" resultMap="purchaseStatsList">
+        SELECT 
+            SUM(order_count) AS order_count, 
+            SUM(total_amount) AS total_amount, 
+            c.user_id, 
+            c.user_name, 
+            d.year, 
+            d.month 
+        FROM tb_user_daily_stats uds
+        INNER JOIN tb_dimension_date d ON uds.id_date_dimension = d.id
+        INNER JOIN tb_contacts c ON uds.id_contact = c.id
+        WHERE c.user_id = #{user_id} AND d.year = #{year} AND d.month = #{month}
+        GROUP BY c.user_id, c.user_name, d.year, d.month
+        ORDER BY d.year, d.month
+    </select>
+</mapper>
